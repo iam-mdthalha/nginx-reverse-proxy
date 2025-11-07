@@ -424,49 +424,6 @@ sudo ufw status
 
 ---
 
-## 📊 Load Balancing Configuration (Optional)
-
-If you need to scale your Node.js backend with multiple instances, you can add an upstream block:
-
-```nginx
-# Add this at the top of nginx-proxy.conf before the server block
-upstream nodejs_backend {
-    least_conn;  # Load balancing algorithm
-    server 127.0.0.1:3000;
-    server 127.0.0.1:3001;
-    server 127.0.0.1:3002;
-}
-
-server {
-    listen 80;
-    server_name <YOUR-EC2-IP>;
-    
-    root /var/www/frontend;
-    index index.html;
-    
-    location / {
-        try_files $uri $uri/ /index.html;
-    }
-    
-    # Change proxy_pass to use upstream
-    location /api/ {
-        proxy_pass http://nodejs_backend;
-        proxy_http_version 1.1;
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-    }
-    
-    location /socket.io/ {
-        proxy_pass http://nodejs_backend;
-        proxy_http_version 1.1;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection "upgrade";
-        proxy_set_header Host $host;
-    }
-}
-```
-
 Then start multiple Node.js instances:
 
 ```bash
@@ -483,10 +440,8 @@ To demonstrate a production-ready DevOps workflow using:
 
 - Node.js & Express  
 - NGINX Reverse Proxy  
-- WebSocket (Socket.io)  
-- PM2 Process Manager  
+- WebSocket (Socket.io)   
 - Ubuntu / EC2  
-- SSL/TLS Certificates  
 - Git & GitHub  
 
 Perfect for DevOps portfolios, resumes, and interviews.
