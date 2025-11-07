@@ -82,6 +82,20 @@ nginx-node-proxy/
 
 ---
 
+## 🎯 Visual Flow (Step-By-Step)
+
+- **1️⃣ User enters:
+    http://your-domain.com**
+- **2️⃣ Request reaches NGINX on port 80**
+- **3️⃣ NGINX checks config:
+    location / {
+         proxy_pass http://localhost:3000;
+    }**
+- **4️⃣ NGINX forwards request → Node.js app**
+- **5️⃣ Node.js sends response back → NGINX**
+- **6️⃣ NGINX returns response → Brower**
+---
+
 ## 📦 How to Use This Repository
 
 Below are the commands to clone, install, configure, deploy, and maintain the project:
